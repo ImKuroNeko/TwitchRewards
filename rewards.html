@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/audio5js/0.1.12/audio5.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/comfy.js/dist/comfy.min.js"></script>
+  <script type="text/javascript">
+    /***************************  Variables [utilidad]  */
+    const channel_name  = "name_of_your_account";
+    const account_oauth = "oauth:___________________________"; // You can get it from here:: https://twitchapps.com/tmi/
+    const account_name  = 'name_of_your_main_or_bot_account';
+
+    /***************************  Variables [utilidad]  */
+    var audio5js = new Audio5js();
+    var redeemTime = new Date(2020, 1, 1, 12, 0, 0, 0);
+    var currentTime = '';
+
+    /***************************  Obtener Timestamp Actual  */
+    function getCurrentTime() {
+      return new Date();
+    }
+
+    /***************************  Controlar plazo de tiempo  */
+    function checkTimeAgo(vMin) {
+      currentTime = getCurrentTime();
+      var diff = currentTime.getTime() - redeemTime.getTime();
+      if(diff > vMin || diff < 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    /***************************  Reproducir musica  */
+    function reedeemSound (sound, message, cooldown) {
+      if(checkTimeAgo(15000)) {                             // Cooldown = 15s (seconds x 1000)  @ You should use a CD of +10
+        audio5js.load('./music/'+ sound);           // I storage my musics in a "/music" folder
+        audio5js.volume(0.65);
+        audio5js.play();
+        redeemTime = getCurrentTime();
+        ComfyJS.Say(message+" @ Cooldown: 15s");            // If you change the cooldown control, you need to modify this too
+      } else {
+        ComfyJS.Say("🚨 ["+cooldown+"] @ It's under cooldown yet");
+      }
+    }
+
+
+    /***************************  Chat Script Control  */
+    ComfyJS.onChat = ( user, command, message, flags, extra ) => {
+      var rewardCode = extra.customRewardId;
+      var play = 'no';
+
+      /*
+        For get the reward code; you need to access here and, add as you will find in the example ::
+            https://www.instafluff.tv/TwitchCustomRewardID/?channel=name_of_your_account
+
+
+        ======= example:
+            case '2432b20b-4d51-461e-a655-b68669bf684b':                        this is the reward code you will get from the site of above
+              reedeemSound('fluffy_unicorn.mp3', '🦄🎶', 'Unicorn');               a function for reedem the music in this format:  music_name, text1, text2
+              break;
+
+
+            music_name = (with extension)
+            text1      = what the bot will way when was redeemed
+            text2      = friendly name? for show in the message when still in cooldown
+                         but users will not get back that coins
+      */
+
+      // https://www.instafluff.tv/TwitchCustomRewardID/?channel=name_of_your_account
+      switch(rewardCode) {
+          /* add rewards here */
+      }
+    }
+
+    /***************************  Chat Script Init  */
+    ComfyJS.Init( account_name, account_oauth, channel_name );
+  </script>
+</html>
