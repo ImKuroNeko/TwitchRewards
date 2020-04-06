@@ -33,7 +33,7 @@
     /***************************  Reproducir musica  */
     function reedeemSound (sound, message, cooldown) {
       if(checkTimeAgo(15000)) {                             // Cooldown = 15s (seconds x 1000)  @ You should use a CD of +10
-        audio5js.load('./music/'+ sound);           // I storage my musics in a "/music" folder
+        audio5js.load('./music/'+ sound);                   // I storage my musics in a "/music" folder
         audio5js.volume(0.65);
         audio5js.play();
         redeemTime = getCurrentTime();
@@ -56,7 +56,7 @@
 
         ======= example:
             case '2432b20b-4d51-461e-a655-b68669bf684b':                        this is the reward code you will get from the site of above
-              reedeemSound('fluffy_unicorn.mp3', '🦄🎶', 'Unicorn');               a function for reedem the music in this format:  music_name, text1, text2
+              reedeemSound('fluffy_unicorn.mp3', '🦄🎶', 'Unicorn');           a function for reedem the music in this format:  music_name, text1, text2
               break;
 
 
